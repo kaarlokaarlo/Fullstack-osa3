@@ -12,17 +12,21 @@ app.use(express.static('build'))
 
   
 app.get('/api/persons', (req, res) => {
-  Person.find({}).then(persons => {
+  Person.find({})
+  .then(persons => {
       res.json(persons.map(p => p.toJSON()))
   })
+  .catch(error => next(error))
 })
 
 app.get('/info', (req, res) =>{
     
     const date = Date() //new Date().toDateString()
     res.send(
-`<p>Phonebook has info of ${persons.length} people</p>` + '<br />' +  date)
-})
+        `<p>Phonebook has info of ${Person.length} people</p>` + '<br />' +  date
+            )
+    .catch(error => next(error))
+    })
 
 
 app.get('/api/persons/:id', (req,res, next) => {
@@ -33,8 +37,8 @@ app.get('/api/persons/:id', (req,res, next) => {
     })
     .catch(error =>next(error))
 })
+
 app.delete('/api/persons/:id', (request, response, next) => {
-    console.log('haista paskassfafadassfd')
     Person.findByIdAndRemove(request.params.id)
     .then(result => {
         response.status(204).end()
@@ -68,8 +72,21 @@ app.post('/api/persons', (req, res) =>{
         res.json(saved.toJSON())
     })  
     console.log(JSON.stringify(person))
-    
-    
+})
+
+app.put('/api/persons/:id', (request, response) =>{
+    const body = request.body
+
+    const updatedPerson = {
+        name: body.name,
+        number: body.number
+    }
+
+    Person.findByIdAndUpdate(body.id,updatedPerson, {new: true})
+        .then(person => {
+            response.json(person.toJSON())
+        })
+        .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
