@@ -6,9 +6,8 @@ const Person = require('./models/person')
 const cors = require('cors')
 app.use(cors())
 app.use(express.json()) 
-const morgan = require('morgan')
-
 app.use(express.static('build'))
+//const morgan = require('morgan')
 
   
 app.get('/api/persons', (req, res) => {
@@ -46,32 +45,19 @@ app.delete('/api/persons/:id', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post('/api/persons', (req, res) =>{
+app.post('/api/persons', (req, res, next) =>{
     const body = req.body
-
-    if (body.number.length < 1){ 
-        return res.status(400).json({ error: 'no number' })
-    }
-
-    if (body.name.length < 1){
-        return res.status(400).json({ error: 'no name' })
-    }
 
     const person = new Person({ 
         name: body.name,
         number: body.number
     })
 
-    /*
-    if(persons.find(p => p.name === person.name)){
-        res.status(400).json({
-            error: 'name must be unique'
-        })
-    } */
-        person.save().then(saved => {
+    person.save()
+    .then(saved => {
         res.json(saved.toJSON())
     })  
-    console.log(JSON.stringify(person))
+    .catch(error => next(error))
 })
 
 app.put('/api/persons/:id', (request, response) =>{
@@ -99,6 +85,8 @@ const errorHandler = (error, req, res, next) =>{
     console.log(error.message)
     if(error.name === 'CastError') {
         return res.status(400).send({error: 'malformated id'})
+    }else if (error.name === 'ValidationError'){
+        return res.status(400).json({error : error.message})
     }
 
     next(error)
