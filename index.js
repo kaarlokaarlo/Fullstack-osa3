@@ -9,6 +9,10 @@ app.use(express.json())
 app.use(express.static('build'))
 //const morgan = require('morgan')
 
+if (global.__coverage__) {
+  require('@cypress/code-coverage/middleware/express')(app)
+}
+
 
 app.get('/api/persons', (req, res, next) => {
   Person.find({})
@@ -16,6 +20,17 @@ app.get('/api/persons', (req, res, next) => {
       res.json(persons.map(p => p.toJSON()))
     })
     .catch(error => next(error))
+})
+
+
+app.post('/reset', (request, response, nxt) => {
+  Person.deleteMany({})
+  .then(() => {
+    response.status(204).end()
+  })
+  .catch(error => nxt(error))
+
+  
 })
 
 app.get('/info', (req, res, next) => {

@@ -1,0 +1,4 @@
+{"total": {"lines":{"total":76,"covered":65,"skipped":0,"pct":85.53},"statements":{"total":78,"covered":66,"skipped":0,"pct":84.62},"functions":{"total":27,"covered":18,"skipped":0,"pct":66.67},"branches":{"total":10,"covered":5,"skipped":0,"pct":50}}
+,"C:\\Users\\Kaarlo\\Downloads\\osa3\\index.js": {"lines":{"total":57,"covered":47,"skipped":0,"pct":82.46},"functions":{"total":24,"covered":16,"skipped":0,"pct":66.67},"statements":{"total":59,"covered":48,"skipped":0,"pct":81.36},"branches":{"total":8,"covered":4,"skipped":0,"pct":50}}
+,"C:\\Users\\Kaarlo\\Downloads\\osa3\\models\\person.js": {"lines":{"total":19,"covered":18,"skipped":0,"pct":94.74},"functions":{"total":3,"covered":2,"skipped":0,"pct":66.67},"statements":{"total":19,"covered":18,"skipped":0,"pct":94.74},"branches":{"total":2,"covered":1,"skipped":0,"pct":50}}
+}

@@ -3,7 +3,12 @@ mongoose.set('useFindAndModify', false)
 mongoose.set( 'useCreateIndex', true )
 const uniqueValidator = require('mongoose-unique-validator')
 
-const url = process.env.MONGODB_URI
+let url = process.env.MONGODB_URI
+
+if (process.env.NODE_ENV === 'test') {
+    url =  process.env.TEST_MONGODB_URI
+    console.log('testing environment')
+}
 
 console.log('connecting to', url)
 

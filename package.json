@@ -4,14 +4,15 @@
   "description": "phonebook",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js -r @cypress/instrument-cra start",
+    "dev": "cross-env NODE_ENV=test --require @cypress/instrument-cra start nodemon index.js",
     "build:ui": "rm -rf build && cd ../../osa2/materiaali/notes-new && npm run build --prod && cp -r build ../../../osa3/notes-backend/",
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "cypress:open": "cypress open",
+    "test": "cross-env NODE_ENV=test nyc --silent node index.js"
   },
   "author": "Kaarlo Liukkonen",
   "license": "ISC",
@@ -19,12 +20,20 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.9.9",
+    "mongoose": "^5.12.2",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "@cypress/code-coverage": "^3.9.4",
+    "@cypress/instrument-cra": "^1.4.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "cypress": "^6.8.0",
     "eslint": "^7.0.0",
-    "nodemon": "^2.0.2"
+    "eslint-plugin-cypress": "^2.11.2",
+    "istanbul-lib-coverage": "^3.0.0",
+    "nodemon": "^2.0.2",
+    "nyc": "^15.1.0"
   }
 }
